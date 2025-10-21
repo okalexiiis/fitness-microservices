@@ -1,5 +1,5 @@
 import { Hono } from "hono"
-import { GetAllController, GetOneByIdController, RegisterController } from "../controllers"
+import { DeleteController, GetAllController, GetOneByIdController, RegisterController, UpdateController } from "../controllers"
 
 const api = new Hono()
 
@@ -13,16 +13,10 @@ api.get("/:id", GetOneByIdController)
 api.post("/", RegisterController)
 
 // Update a User
-api.patch("/:id", (c) => {
-    const id = c.req.param("id")
-    return c.json({message: `User #${id} Updated`})
-})
+api.put("/:id", UpdateController)
 
 // Delete a User
-api.delete("/:id", (c) => {
-    const id = c.req.param("id")
-    return c.json({message: `User #${id} Deleted`})
-})
+api.delete("/:id", DeleteController)
 
 // Login
 api.post("/login", (c) => {

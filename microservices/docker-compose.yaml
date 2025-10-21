@@ -1,13 +1,19 @@
 services:
   users:
-    build: ./users-service
+    build:
+      context: ./users-service
+      dockerfile: Dockerfile
     ports:
       - "4001:4001"
     environment:
+      - PORT=4001
       - DATABASE_URL=postgresql://postgres:postgres@users-db:5432/users_db
+    volumes:
+      - ./users-service/src:/app/src
+      - ./users-service/drizzle.config.ts:/app/drizzle.config.ts
     depends_on:
       - users-db
-
+      
   users-db:
     image: postgres:16
     restart: always

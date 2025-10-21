@@ -6,7 +6,7 @@ import { customLogger } from './common/Logger'
 
 const app = new Hono()
 app.use(logger(customLogger))
-app.get('/health', (c) => c.text('User Service is alive!!'))
+app.get('/health', (c) => c.text('User Service is ok'))
 app.use(prettyJSON())
 app.notFound((c) => c.json({ message: 'Not Found', ok: false }, 404))
 
@@ -14,6 +14,6 @@ app.get('/favicon.ico', (c) => c.text(''))
 app.route('/', api)
 
 export default {
-  port: process.env.PORT!,
+  port: Number(process.env.PORT) || 4001,
   fetch: app.fetch
 }

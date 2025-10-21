@@ -4,7 +4,6 @@ import { users } from "../db/schema";
 import { Response} from "../common/ResponseMapper";
 import { RegisterUserDTO } from "../models/dtos/register-user.dto";
 import { customLogger } from "../common/Logger";
-import { PostgresError } from "postgres";
 
 export async function RegisterController(c: Context) {
   try {
