@@ -3,6 +3,9 @@ services:
     build: ./gateway
     ports:
       - "4000:4000"
+    volumes:
+      - ./gateway:/app           # ✅ Monta TODO el directorio
+      - /app/node_modules        # ✅ Pero excluye node_modules
     depends_on:
       - users-service
       - routines-service
@@ -13,6 +16,9 @@ services:
     build: ./users-service
     ports:
       - "4001:4000"
+    volumes:
+      - ./users-service:/app           # ✅ Monta TODO el directorio
+      - /app/node_modules        # ✅ Pero excluye node_modules
     environment:
       DATABASE_URL: postgresql://admin:password@users-db:5432/fitness_app
     depends_on:
@@ -33,6 +39,9 @@ services:
     build: ./routines-service
     ports:
       - "4002:4000"
+    volumes:
+      - ./routines-service:/app           # ✅ Monta TODO el directorio
+      - /app/node_modules        # ✅ Pero excluye node_modules
     environment:
       DATABASE_URL: postgresql://admin:password@routines-db:5432/fitness_app
     depends_on:
@@ -53,6 +62,9 @@ services:
     build: ./nutrition-service
     ports:
       - "4003:4000"
+    volumes:
+      - ./nutrition:/app           # ✅ Monta TODO el directorio
+      - /app/node_modules        # ✅ Pero excluye node_modules
     environment:
       DATABASE_URL: postgresql://admin:password@nutrition-db:5432/fitness_app
     depends_on:
@@ -73,6 +85,9 @@ services:
     build: ./progress-service
     ports:
       - "4004:4000"
+    volumes:
+      - ./progress-service:/app           # ✅ Monta TODO el directorio
+      - /app/node_modules        # ✅ Pero excluye node_modules
     environment:
       DATABASE_URL: postgresql://admin:password@progress-db:5432/fitness_app
     depends_on:

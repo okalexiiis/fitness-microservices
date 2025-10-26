@@ -1,32 +1,19 @@
-# Usa la última versión de Bun (Alpine para menor tamaño)
-FROM oven/bun:1-alpine AS base
+FROM oven/bun:1-alpine
 
-# Stage 1: Dependencies
-FROM base AS deps
 WORKDIR /app
 
-# Copia archivos de dependencias
+# Copia solo package.json primero (para cache de dependencias)
 COPY package.json bun.lockb* ./
 
-# Instala dependencias (producción y desarrollo)
-RUN bun install --frozen-lockfile
+# Instala dependencias
+RUN bun install
 
-# Stage 2: Development
-FROM base AS dev
-WORKDIR /app
+# El código se montará como volumen, no lo copies aquí
+# COPY . . ❌ NO HAGAS ESTO en desarrollo
 
-# Copia dependencias del stage anterior
-COPY --from=deps /app/node_modules ./node_modules
+EXPOSE 4001
 
-# Copia el código fuente
-COPY . .
-
-# Expone el puerto
-EXPOSE 4002
-
-# Variables de entorno para mejor logging
 ENV NODE_ENV=development
-ENV LOG_LEVEL=debug
 
-# Comando para desarrollo con hot-reload
-CMD ["bun", "run", "--hot", "src/index.ts"]
+# Hot reload funcionará porque el código viene del volumen
+CMD ["bun", "run", "--watch", "src/index.ts"]
