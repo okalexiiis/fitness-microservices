@@ -1,0 +1,11 @@
+# deps
+node_modules
+.git
+*.md
+.env
+.env.local
+dist
+build
+coverage
+.DS_Store
+drizzle
