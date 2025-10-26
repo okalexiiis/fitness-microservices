@@ -16,4 +16,4 @@ EXPOSE 4001
 ENV NODE_ENV=development
 
 # Hot reload funcionará porque el código viene del volumen
-CMD ["bun", "run", "--watch", "src/index.ts"]
+CMD ["bun", "run", "dev"]
