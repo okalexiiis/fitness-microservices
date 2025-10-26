@@ -1,12 +1,16 @@
+import 'dotenv/config';
 import { Hono } from 'hono';
 import { logger } from 'hono/logger';
 import { cors } from 'hono/cors';
+import userRouter from "./Routes"
 
 const app = new Hono();
 
 // Middleware para logs bonitos
 app.use('*', logger());
 app.use('*', cors());
+
+app.route('/', userRouter)
 
 // Health check
 app.get('/health', (c) => {
