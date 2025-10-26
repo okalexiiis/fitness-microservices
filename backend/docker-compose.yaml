@@ -1,0 +1,111 @@
+version: '3.8'
+
+services:
+  gateway:
+    build: ./gateway
+    ports:
+      - "4000:4000"
+    depends_on:
+      - users-service
+      - routines-service
+      - nutrition-service
+      - progress-service
+
+  users-service:
+    build: ./users-service
+    ports:
+      - "4001:4000"
+    environment:
+      DATABASE_URL: postgresql://admin:password@users-db:5432/fitness_app
+    depends_on:
+      - users-db
+
+  users-db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: fitness_app
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"  # Puerto único para este servicio
+    volumes:
+      - users_data:/var/lib/postgresql/data
+
+  routines-service:
+    build: ./routines-service
+    ports:
+      - "4002:4000"
+    environment:
+      DATABASE_URL: postgresql://admin:password@routines-db:5432/fitness_app
+    depends_on:
+      - routines-db
+
+  routines-db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: fitness_app
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"  # Puerto diferente en host
+    volumes:
+      - routines_data:/var/lib/postgresql/data
+
+  nutrition-service:
+    build: ./nutrition-service
+    ports:
+      - "4003:4000"
+    environment:
+      DATABASE_URL: postgresql://admin:password@nutrition-db:5432/fitness_app
+    depends_on:
+      - nutrition-db
+
+  nutrition-db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: fitness_app
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5434:5432"  # Puerto diferente en host
+    volumes:
+      - nutrition_data:/var/lib/postgresql/data
+
+  progress-service:
+    build: ./progress-service
+    ports:
+      - "4004:4000"
+    environment:
+      DATABASE_URL: postgresql://admin:password@progress-db:5432/fitness_app
+    depends_on:
+      - progress-db
+
+  progress-db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: fitness_app
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5435:5432"  # Puerto diferente en host
+    volumes:
+      - progress_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - users-db
+      - routines-db
+      - nutrition-db
+      - progress-db
+
+volumes:
+  users_data:
+  routines_data:
+  nutrition_data:
+  progress_data:
