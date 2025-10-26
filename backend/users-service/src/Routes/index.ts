@@ -1,11 +1,11 @@
 import { Hono } from 'hono';
+import { GetAllController } from '../Controllers/GetAll';
+import { RegisterUserController } from '../Controllers/RegisterUser';
 
 const router = new Hono();
 
 // ✅ Get All Users
-router.get('/', (c) => {
-  return c.json({ message: 'Obtuviste todos y cada uno de los usuarios' });
-});
+router.get('/', GetAllController);
 
 // ✅ Get User By ID
 router.get('/id/:id', (c) => {
@@ -26,9 +26,7 @@ router.delete('/:id', (c) => {
 });
 
 // ✅ Register a User
-router.post('/', async (c) => {
-  return c.json({ message: 'Registraste un usuario' });
-});
+router.post('/', RegisterUserController);
 
 // ✅ Login a User
 router.post('/login', async (c) => {
