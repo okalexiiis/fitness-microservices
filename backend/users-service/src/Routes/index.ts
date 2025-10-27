@@ -12,7 +12,7 @@ const router = new Hono();
 router.get('/', GetAllController);
 
 // ✅ Get User By ID
-router.get('/id/:id', GetUserByIdController);
+router.get('/:id', GetUserByIdController);
 
 // ✅ Update a User
 router.patch('/:id',  UpdateUserController);
