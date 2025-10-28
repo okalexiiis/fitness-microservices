@@ -12,7 +12,7 @@ app.use('*', cors());
 app.get('/health', (c) => {
   return c.json({ 
     status: 'ok', 
-    service: 'nutririon',
+    service: 'nutrition',
     timestamp: new Date().toISOString() 
   });
 });
