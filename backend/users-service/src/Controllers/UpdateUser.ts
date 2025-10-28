@@ -1,7 +1,6 @@
 import { Context } from "hono";
 import { UserService } from "../Services/UserService";
 import { sanitizeUpdates } from "../Helpers";
-import { PostgresError } from "postgres";
 
 export async function UpdateUserController(c: Context) {
   const userService = new UserService();
@@ -46,7 +45,7 @@ export async function UpdateUserController(c: Context) {
     console.error("UpdateUserController error:", error);
 
     // 🧩 Manejo de errores específicos de PostgreSQL
-    if (error instanceof PostgresError) {
+    if (error?.code) {
       switch (error.code) {
         case "23505": // Violación de unique constraint
           return c.json(

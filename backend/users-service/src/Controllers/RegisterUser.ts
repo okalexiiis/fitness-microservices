@@ -2,7 +2,6 @@ import { Context } from "hono";
 import { UserService } from "../Services/UserService";
 import { User } from "../Models/user";
 import { hash } from "../Helpers";
-import { PostgresError } from "postgres";
 
 export async function RegisterUserController(c: Context) {
   const userService = new UserService();
@@ -45,7 +44,7 @@ export async function RegisterUserController(c: Context) {
     console.error("RegisterUserController error:", error);
 
     // 🧩 Manejo de errores específicos de PostgreSQL
-    if (error instanceof PostgresError) {
+    if (error?.code) {
       switch (error.code) {
         case "23505": // Violación de unique constraint
           return c.json(
