@@ -17,7 +17,7 @@ services:
     ports:
       - "4001:4000"
     volumes:
-      - ./users-service:/app           # ✅ Monta TODO el directorio
+      - ./users-service:/app     # ✅ Monta TODO el directorio
       - /app/node_modules        # ✅ Pero excluye node_modules
     environment:
       DATABASE_URL: postgresql://admin:password@users-db:5432/fitness_app
@@ -98,7 +98,7 @@ services:
     environment:
       POSTGRES_DB: fitness_app
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSW5432ORD: password
     ports:
       - "5435:5432"  # Puerto diferente en host
     volumes:
