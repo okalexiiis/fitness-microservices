@@ -9,8 +9,7 @@
   "dependencies": {
     "drizzle-orm": "^0.44.7",
     "hono": "^4.10.3",
-        "postgres": "^3.4.7",
-
+    "postgres": "^3.4.7",
     "jose": "^6.1.0"
   },
   "devDependencies": {
