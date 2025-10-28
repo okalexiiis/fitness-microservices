@@ -10,8 +10,6 @@ const app = new Hono();
 app.use('*', logger());
 app.use('*', cors());
 
-app.route('/', userRouter)
-
 // Health check
 app.get('/health', (c) => {
   return c.json({ 
@@ -20,6 +18,9 @@ app.get('/health', (c) => {
     timestamp: new Date().toISOString() 
   });
 });
+
+
+app.route('/', userRouter)
 
 // 404 handler
 app.notFound((c) => {
