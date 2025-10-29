@@ -2,7 +2,9 @@
   "name": "nutrition-service",
   "scripts": {
     "dev": "bun run --hot src/index.ts",
-    "start": "bun run src/index.ts"
+    "start": "bun run src/index.ts",
+    "db:generate": "drizzle-kit generate --config='./drizzle.config.ts'",
+    "db:push": "drizzle-kit push --config='./drizzle.config.ts'"
   },
   "dependencies": {
     "drizzle-orm": "^0.44.7",
