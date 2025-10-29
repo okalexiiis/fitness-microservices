@@ -1,3 +1,5 @@
+import {EGoals} from "../Interfaces/Goals"
+
 export class User {
   public id: number;
   public email: string;
@@ -6,7 +8,7 @@ export class User {
   public age: number;
   public height: number; // en cm
   public weight: number; // en kg
-  public goal: "lose_weight" | "gain_muscle" | "mantain";
+  public goal: EGoals;
   public created_at: string ;
 
   constructor(
@@ -17,7 +19,7 @@ export class User {
     age: number,
     height: number,
     weight: number,
-    goal: "lose_weight" | "gain_muscle" | "mantain",
+    goal: EGoals,
   ) {
     this.id = id
     this.email = email

@@ -1,10 +1,10 @@
-import { decimal, integer, pgTable, varchar } from "drizzle-orm/pg-core";
+import {  doublePrecision, integer, pgTable, varchar } from "drizzle-orm/pg-core";
 
-export const food_table = pgTable("foods", {   
+export const foodTable = pgTable("foods", {   
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     name: varchar({length: 50}).notNull(),
-    calories: decimal().notNull(),
-    proteins: decimal().notNull(),
-    carbs: decimal().notNull(),
-    fats: decimal().notNull()
+    calories: doublePrecision().notNull(),
+    proteins: doublePrecision().notNull(),
+    carbs: doublePrecision().notNull(),
+    fats: doublePrecision().notNull()
 })
