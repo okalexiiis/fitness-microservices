@@ -6,3 +6,5 @@ export interface Food {
     carbs: number // Decimal
     fats: number // Decimal
 }
+
+export interface CreateFoodDTO extends Omit<Food, "id"> {}
