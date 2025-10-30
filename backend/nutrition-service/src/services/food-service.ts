@@ -2,7 +2,7 @@ import { applyFilters } from "../helpers";
 import { eq, sql } from "drizzle-orm";
 import { ApiResponsePaginated, FoodFilters } from "../interfaces/api-types";
 import { db } from "../db";
-import { Food } from "../models/Food";
+import { CreateFoodDTO, Food } from "../models/Food";
 import { foodTable } from "../db/schemas/food";
 
 export function sanitizeFoodUpdates(
@@ -32,11 +32,11 @@ export function sanitizeFoodUpdates(
 }
 
 
-export class UserService {
+export class FoodService {
   private _db = db;
 
   // Guardar Comida
-  public async Save(newFood: Food): Promise<void> {
+  public async Save(newFood: CreateFoodDTO): Promise<void> {
     await this._db.insert(foodTable).values(newFood);
   }
 
@@ -45,7 +45,7 @@ export class UserService {
     page: number = 1,
     limit: number = 10,
     filters?: FoodFilters
-  ): Promise<ApiResponsePaginated<Food>> {
+  ): Promise<{total: number, data: Food[]}> {
     const offset = (page - 1) * limit;
 
     let query = this._db.select().from(foodTable);
@@ -64,16 +64,7 @@ export class UserService {
     const totalResult = await totalQuery;
     const total = totalResult[0].total;
 
-    return {
-      data: foods,
-      ok: true,
-      meta: {
-        page,
-        limit,
-        total,
-        totalPages: Math.ceil(total / limit),
-      },
-    };
+    return {total: total, data: foods}
   }
 
   // Obtener una comida por criterios
