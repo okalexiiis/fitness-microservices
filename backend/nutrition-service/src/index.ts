@@ -1,25 +1,29 @@
-import { Hono } from 'hono';
-import { logger } from 'hono/logger';
-import { cors } from 'hono/cors';
+import { Hono } from "hono";
+import { logger } from "hono/logger";
+import { cors } from "hono/cors";
+
+import FoodRouter from "./routes/food";
 
 const app = new Hono();
 
 // Middleware para logs bonitos
-app.use('*', logger());
-app.use('*', cors());
+app.use("*", logger());
+app.use("*", cors());
 
 // Health check
-app.get('/health', (c) => {
-  return c.json({ 
-    status: 'ok', 
-    service: 'nutrition',
-    timestamp: new Date().toISOString() 
+app.get("/health", (c) => {
+  return c.json({
+    status: "ok",
+    service: "nutrition",
+    timestamp: new Date().toISOString(),
   });
 });
 
+app.route("/food", FoodRouter)
+
 // 404 handler
 app.notFound((c) => {
-  return c.json({ error: 'Not Found' }, 404);
+  return c.json({ error: "Not Found" }, 404);
 });
 
 const port = process.env.PORT || 4000;
