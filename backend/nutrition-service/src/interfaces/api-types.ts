@@ -9,15 +9,14 @@ export interface PaginationMetaData {
 }
 
 export interface ApiResponse<T> {
-  data: T[];
-  ok: boolean;
+  data: T;
+  message?: string;
+  statusCode?: number;
 }
 
-export type ApiResponseOne<T> = Omit<ApiResponse<T>, "data"> & {
-  data: T;
-};
-
-export interface ApiResponsePaginated<T> extends ApiResponse<T> {
+export interface ApiResponsePaginated<T>
+  extends Omit<ApiResponse<any>, "data"> {
+  data: T[];
   meta: PaginationMetaData;
 }
 
