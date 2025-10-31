@@ -3,6 +3,7 @@ import { logger } from "hono/logger";
 import { cors } from "hono/cors";
 
 import FoodRouter from "./routes/food";
+import MealRouter from "./routes/meal";
 
 const app = new Hono();
 
@@ -19,7 +20,8 @@ app.get("/health", (c) => {
   });
 });
 
-app.route("/food", FoodRouter)
+app.route("/food", FoodRouter);
+app.route("/meal", MealRouter);
 
 // 404 handler
 app.notFound((c) => {
