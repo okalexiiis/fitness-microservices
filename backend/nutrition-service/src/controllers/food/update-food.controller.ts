@@ -22,14 +22,29 @@ export async function UpdateFoodController(c: Context) {
       return c.json(res, 404);
     }
 
-    const updates = await c.req.json()
+    const updates = await c.req.json();
 
-    await service.update(Number(id), updates)
-  } catch (error) {
-    console.log(error)
-    let res;
+    await service.update(Number(id), updates);
+    return c.status(204);
+  } catch (error: any) {
+    console.log(error);
+    let res = ApiMapper.ApiResponse<any>(
+      error,
+      500,
+      "Something Wrong Happened"
+    );
 
-    res = ApiMapper.ApiResponse<any>(error, 500, "Something Wrong Happened")
-    return c.json(res)
+    if (error?.cause?.code) {
+      switch (error.cause.code) {
+        case 100:
+          res = ApiMapper.ApiResponse<any>(null, 400, error?.message);
+          break;
+
+        default:
+          break;
+      }
+    }
+
+    return c.json(res, res.statusCode);
   }
 }
