@@ -19,9 +19,9 @@ app.get('/health', (c) => {
 
 // Rutas proxy a microservicios
 app.all('/api/users/*', async (c) => {
-  const path = c.req.path.replace('/api/users', '');
-  const url = `http://users-service:4000${path}`;
-  
+  const path = c.req.path.replace('/api/users', '') || '/';
+  const query = c.req.url.split('?')[1];
+  const url = `http://users-service:4000${path}${query ? `?${query}` : ''}`;
   console.log(`[GATEWAY] Proxying to users-service: ${url}`);
   
   const response = await fetch(url, {
@@ -37,8 +37,9 @@ app.all('/api/users/*', async (c) => {
 });
 
 app.all('/api/routines/*', async (c) => {
-  const path = c.req.path.replace('/api/routines', '');
-  const url = `http://routines-service:4000${path}`;
+  const path = c.req.path.replace('/api/routines', '') || '/';
+  const query = c.req.url.split('?')[1];
+  const url = `http://routines-service:4000${path}${query ? `?${query}` : ''}`;
   console.log(`[GATEWAY] Proxying to routines-service: ${url}`);
   
   const response = await fetch(url, {
@@ -54,8 +55,9 @@ app.all('/api/routines/*', async (c) => {
 });
 
 app.all('/api/nutrition/*', async (c) => {
-  const path = c.req.path.replace('/api/nutrition', '');
-  const url = `http://nutrition-service:4000${path}`;
+  const path = c.req.path.replace('/api/nutrition', '') || '/';
+  const query = c.req.url.split('?')[1];
+  const url = `http://nutrition-service:4000${path}${query ? `?${query}` : ''}`;
   console.log(`[GATEWAY] Proxying to nutrition-service: ${url}`);
   
   const response = await fetch(url, {
@@ -71,8 +73,9 @@ app.all('/api/nutrition/*', async (c) => {
 });
 
 app.all('/api/progress/*', async (c) => {
-  const path = c.req.path.replace('/api/progress', '');
-  const url = `http://progress-service:4000${path}`;
+  const path = c.req.path.replace('/api/progress', '') || '/';
+  const query = c.req.url.split('?')[1];
+  const url = `http://progress-service:4000${path}${query ? `?${query}` : ''}`;
   console.log(`[GATEWAY] Proxying to progress-service: ${url}`);
   
   const response = await fetch(url, {
