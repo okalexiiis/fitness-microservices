@@ -1,6 +1,6 @@
 import { applyFilters } from "../helpers";
 import { eq, sql } from "drizzle-orm";
-import { ApiResponsePaginated, FoodFilters } from "../interfaces/api-types";
+import { FoodFilters } from "../interfaces/api-types";
 import { db } from "../db";
 import { CreateFoodDTO, Food } from "../models/Food";
 import { foodTable } from "../db/schemas/food";
@@ -14,13 +14,7 @@ export function sanitizeFoodUpdates(
     fats: number;
   }>
 ) {
-  const result: Partial<{
-    name: string;
-    calories: number;
-    proteins: number;
-    carbs: number;
-    fats: number;
-  }> = {};
+  const result: Record<string, any> = {};
 
   if (updates.name !== undefined) result.name = updates.name;
   if (updates.calories !== undefined) result.calories = updates.calories;
@@ -28,9 +22,8 @@ export function sanitizeFoodUpdates(
   if (updates.carbs !== undefined) result.carbs = updates.carbs;
   if (updates.fats !== undefined) result.fats = updates.fats;
 
-  return result;
+  return Object.keys(result).length > 0 ? result : null;
 }
-
 
 export class FoodService {
   private _db = db;
@@ -45,7 +38,7 @@ export class FoodService {
     page: number = 1,
     limit: number = 10,
     filters?: FoodFilters
-  ): Promise<{total: number, data: Food[]}> {
+  ): Promise<{ total: number; data: Food[] }> {
     const offset = (page - 1) * limit;
 
     let query = this._db.select().from(foodTable);
@@ -64,7 +57,7 @@ export class FoodService {
     const totalResult = await totalQuery;
     const total = totalResult[0].total;
 
-    return {total: total, data: foods}
+    return { total: total, data: foods };
   }
 
   // Obtener una comida por criterios
@@ -78,6 +71,9 @@ export class FoodService {
   // Actualizar comida por id
   public async update(id: number, updates: Partial<Food>): Promise<void> {
     const cleanUpdates = sanitizeFoodUpdates(updates);
+
+    if (!cleanUpdates)
+      throw new Error("No values to update", { cause: { code: 100 } });
 
     await this._db
       .update(foodTable)
