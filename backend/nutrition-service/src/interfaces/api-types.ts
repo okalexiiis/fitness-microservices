@@ -10,7 +10,7 @@ export interface PaginationMetaData {
 }
 
 export interface ApiResponse<T> {
-  data: T;
+  data: T[];
   statusCode: ContentfulStatusCode;
   message?: string;
 }
@@ -26,5 +26,5 @@ export type FoodFilters = Partial<
 >;
 
 export type MealFilters = Partial<
-  Pick<Meal, "id" | "date" | "food_id" | "meal_type" | "quantity" | "user_id">
+  Pick<Meal, "id" | "date" | "meal_type" | "user_id">
 >;
