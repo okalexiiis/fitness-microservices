@@ -25,8 +25,8 @@ export async function deleteFoodController(c: Context) {
 
     await service.delete(Number(id));
 
-    res = ApiMapper.ApiResponse<boolean>(true, 203, "Food Deleted");
-    c.json(res);
+    res = ApiMapper.ApiResponse<boolean>(true, 200, "Food Deleted");
+    return c.json(res, 200);
   } catch (error) {
     console.log(error);
     let res;
