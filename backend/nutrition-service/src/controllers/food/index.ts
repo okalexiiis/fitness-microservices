@@ -1,0 +1,5 @@
+export * from "./create-food.controller"
+export * from "./delete-food.controller"
+export * from "./get-all-foods.controller"
+export * from "./get-one-by-id.controller"
+export * from "./update-food.controller"
