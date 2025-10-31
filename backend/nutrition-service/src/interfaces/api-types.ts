@@ -1,3 +1,4 @@
+import { ContentfulStatusCode } from "hono/utils/http-status";
 import { Food } from "../models/Food";
 import { Meal } from "../models/Meal";
 
@@ -10,8 +11,8 @@ export interface PaginationMetaData {
 
 export interface ApiResponse<T> {
   data: T;
+  statusCode: ContentfulStatusCode;
   message?: string;
-  statusCode?: number;
 }
 
 export interface ApiResponsePaginated<T>

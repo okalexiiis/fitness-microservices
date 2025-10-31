@@ -1,3 +1,4 @@
+import { ContentfulStatusCode } from "hono/utils/http-status";
 import {
   ApiResponse,
   ApiResponsePaginated,
@@ -7,7 +8,7 @@ import {
 export class ApiMapper<T> {
   static ApiResponse<T>(
     data: T,
-    statusCode: number,
+    statusCode: ContentfulStatusCode = 200,
     message?: string
   ): ApiResponse<T> {
     return {
@@ -19,10 +20,10 @@ export class ApiMapper<T> {
 
   static ApiPaginatedResponse<T>(
     data: T[],
-    statusCode: number,
+    statusCode: ContentfulStatusCode = 200,
     meta: PaginationMetaData,
     message?: string
-  ) {
+  ): ApiResponsePaginated<T> {
     return {
       data,
       statusCode,
