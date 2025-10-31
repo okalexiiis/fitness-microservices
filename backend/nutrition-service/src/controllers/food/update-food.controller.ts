@@ -25,7 +25,8 @@ export async function UpdateFoodController(c: Context) {
     const updates = await c.req.json();
 
     await service.update(Number(id), updates);
-    return c.status(204);
+    res = ApiMapper.ApiResponse<boolean>(true, 200, "Food Updated")
+    return c.json(res, 200)
   } catch (error: any) {
     console.log(error);
     let res = ApiMapper.ApiResponse<any>(
