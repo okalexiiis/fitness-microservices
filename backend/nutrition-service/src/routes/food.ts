@@ -1,8 +1,18 @@
 import { Hono } from "hono";
-import { GetAllFoods } from "../controllers/get-all-foods.controller";
+import {
+  GetAllFoods,
+  CreateFoodController,
+  getOneByIDController,
+  UpdateFoodController,
+  deleteFoodController,
+} from "../controllers/food";
 
-const router = new Hono()
+const router = new Hono();
 
-router.get('/', GetAllFoods)
+router.get("/", GetAllFoods);
+router.get("/:id", getOneByIDController);
+router.post("/", CreateFoodController);
+router.patch("/:id", UpdateFoodController);
+router.delete("/:id", deleteFoodController);
 
-export default router
+export default router;
