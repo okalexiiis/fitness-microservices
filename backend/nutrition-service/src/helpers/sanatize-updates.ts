@@ -1,14 +1,14 @@
 export function sanitizeUpdates<T extends Record<string, any>>(
   updates: Partial<T>
-): Partial<Record<keyof T, number | string>> {
-  const result: Partial<Record<keyof T, number | string>> = {};
+): Partial<T> {
+  const result: Partial<T> = {};
 
   for (const [key, value] of Object.entries(updates)) {
-    if (typeof value === "string" || typeof value === "number") {
-      result[key as keyof T] = value;
-    } else if (typeof value === "object" && value !== null && "toNumber" in value) {
-      // Si es un Decimal de Drizzle, convertir a number
-      result[key as keyof T] = (value as any).toNumber();
+    if (value === undefined || value === null) continue;
+    if (typeof value === "object" && "toNumber" in (value as any)) {
+      (result as any)[key] = (value as any).toNumber();
+    } else {
+      (result as any)[key] = value;
     }
   }
 
