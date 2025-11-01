@@ -9,3 +9,8 @@ export interface Workout {
 
 export interface createWorkoutDTO extends Omit<Workout, "id"> {}
 export interface updateWorkoutDTO extends Partial<Workout> {}
+
+export interface workoutFilters
+  extends Partial<
+    Pick<Workout, "id" | "completed" | "date" | "exercise_id" | "user_id">
+  > {}
