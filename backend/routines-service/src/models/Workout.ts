@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export interface Workout {
   id: number;
   user_id: number;
@@ -7,10 +9,26 @@ export interface Workout {
   notes: string | null;
 }
 
-export interface createWorkoutDTO extends Omit<Workout, "id"> {}
-export interface updateWorkoutDTO extends Partial<Workout> {}
+export const workoutBaseSchema = z.object({
+  user_id: z.number().positive(),
+  exercise_id: z.number().positive(),
+  date: z.string().refine((date: string) => !isNaN(Date.parse(date)), {
+    message: "Invalid date format",
+  }),
+  completed: z.boolean(),
+  notes: z.string().max(500).nullable(),
+});
 
-export interface workoutFilters
-  extends Partial<
-    Pick<Workout, "id" | "completed" | "date" | "exercise_id" | "user_id">
-  > {}
+export const createWorkoutSchema = workoutBaseSchema;
+export type createWorkoutDTO = z.infer<typeof workoutBaseSchema>;
+export const updateWorkoutSchema = workoutBaseSchema.partial();
+export type updateWorkoutDTO = z.infer<typeof workoutBaseSchema>;
+
+export const workoutFilterSchema = z.object({
+  id: z.coerce.number().optional(),
+  user_id: z.coerce.number().optional(),
+  exercise_id: z.coerce.number().optional(),
+  date: z.string().optional(),
+  completed: z.boolean().optional(),
+});
+export type WorkoutFilters = z.infer<typeof workoutFilterSchema>;
