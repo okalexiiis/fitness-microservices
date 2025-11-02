@@ -1,6 +1,6 @@
 import { Context } from "hono";
-import { ExerciseService } from "../services/exercise.service";
-import { ApiMapper } from "../helpers";
+import { ExerciseService } from "../../services/exercise.service";
+import { ApiMapper } from "../../helpers";
 
 export async function GetExcersiceByID(c: Context) {
   const service = new ExerciseService();

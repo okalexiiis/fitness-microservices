@@ -1,7 +1,7 @@
 import { Context } from "hono";
-import { ExerciseService } from "../services/exercise.service";
-import { ApiMapper } from "../helpers";
-import { ExerciseCategoryType, ExerciseFilters } from "../models/Exercise";
+import { ExerciseService } from "../../services/exercise.service";
+import { ApiMapper } from "../../helpers";
+import { ExerciseCategoryType, ExerciseFilters } from "../../models/Exercise";
 
 export async function GetAllExercisesController(c: Context) {
   const service = new ExerciseService();

@@ -1,7 +1,7 @@
 import { Context } from "hono";
-import { ExerciseService } from "../services/exercise.service";
-import { CreateExerciseDTO } from "../models/Exercise";
-import { ApiMapper } from "../helpers";
+import { ExerciseService } from "../../services/exercise.service";
+import { CreateExerciseDTO } from "../../models/Exercise";
+import { ApiMapper } from "../../helpers";
 
 export async function SaveExerciseController(c: Context) {
   const service = new ExerciseService();
