@@ -49,7 +49,10 @@ export class MealService {
   }
 
   // Actualizar Comida por id
-  public async update(id: number, updates: Partial<CreateMealDTO>): Promise<void> {
+  public async update(
+    id: number,
+    updates: Partial<CreateMealDTO>
+  ): Promise<void> {
     const cleanUpdates = sanitizeUpdates(updates);
 
     if (!cleanUpdates)
