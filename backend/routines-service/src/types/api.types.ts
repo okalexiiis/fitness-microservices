@@ -1,4 +1,5 @@
 import { ContentfulStatusCode } from "hono/utils/http-status";
+import z from "zod";
 
 export interface PaginationMetaData {
   page: number;
@@ -8,7 +9,7 @@ export interface PaginationMetaData {
 }
 
 export interface ApiResponse<T> {
-  data: T[];
+  data: T;
   statusCode: ContentfulStatusCode;
   message?: string;
 }
@@ -23,3 +24,8 @@ export interface ApiResponsePaginated<T>
   data: T[];
   meta: PaginationMetaData;
 }
+
+export const querySchema = z.object({
+  page: z.string().optional(),
+  limit: z.string().optional()
+})
