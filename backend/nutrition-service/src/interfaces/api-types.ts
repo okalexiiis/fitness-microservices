@@ -10,7 +10,7 @@ export interface PaginationMetaData {
 }
 
 export interface ApiResponse<T> {
-  data: T[];
+  data: T;
   statusCode: ContentfulStatusCode;
   message?: string;
 }
