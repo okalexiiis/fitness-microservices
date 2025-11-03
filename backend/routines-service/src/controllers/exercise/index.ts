@@ -1,0 +1,5 @@
+export * from "./get-all-exercises.controller"
+export * from "./delete-exercise.controller"
+export * from "./update-exercise.controller"
+export * from "./save-exercise.controller"
+export * from "./get-exercise.controller"

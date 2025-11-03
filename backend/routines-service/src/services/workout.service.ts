@@ -4,7 +4,7 @@ import {
   createWorkoutDTO,
   Workout,
   updateWorkoutDTO,
-  workoutFilters,
+  WorkoutFilters,
 } from "../models/Workout";
 import { applyFilters, sanitizeUpdates } from "../helpers";
 
@@ -18,13 +18,12 @@ export class WorkoutService {
   public async getAll(
     page: number = 1,
     limit: number = 10,
-    filters?: workoutFilters
+    filters?: WorkoutFilters
   ): Promise<{ total: number; data: Workout[] }> {
     const offset = (page - 1) * limit;
 
     let query = this._db.select().from(workoutTable);
     query = applyFilters({ entity: workoutTable, query, filters });
-
     const workouts: Workout[] = await query.limit(limit).offset(offset);
 
     let totalQuery = this._db
@@ -37,11 +36,16 @@ export class WorkoutService {
     });
     const totalResult = await totalQuery;
     const total = totalResult[0].total;
-
+    console.log("Filters:", filters);
+    console.log("SQL:", query.toSQL());
+    console.log("RESULT DATA", workouts);
+    console.log("RESULT DATA", totalResult);
+    console.log("OFFSET", offset);
+    console.log("limit", limit);
     return { total: total, data: workouts };
   }
 
-  public async getOneBy(criteria: workoutFilters): Promise<Workout | null> {
+  public async getOneBy(criteria: WorkoutFilters): Promise<Workout | null> {
     let query = this._db.select().from(workoutTable);
     query = applyFilters({ entity: workoutTable, query, filters: criteria });
     const workout: Workout | undefined = await query

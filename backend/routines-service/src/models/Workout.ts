@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { querySchema } from "../types/api.types";
+import { strictBoolean } from "../helpers/zod";
 
 export interface Workout {
   id: number;
@@ -12,7 +14,7 @@ export interface Workout {
 export const workoutBaseSchema = z.object({
   user_id: z.number().positive(),
   exercise_id: z.number().positive(),
-  date: z.string().refine((date: string) => !isNaN(Date.parse(date)), {
+  date: z.string().refine((date: string) => Date.parse(date), {
     message: "Invalid date format",
   }),
   completed: z.boolean(),
@@ -29,6 +31,9 @@ export const workoutFilterSchema = z.object({
   user_id: z.coerce.number().optional(),
   exercise_id: z.coerce.number().optional(),
   date: z.string().optional(),
-  completed: z.boolean().optional(),
+  completed: strictBoolean.optional(),
 });
 export type WorkoutFilters = z.infer<typeof workoutFilterSchema>;
+
+export const workoutQuerySchema = workoutFilterSchema.and(querySchema);
+export type WorkoutQuery = z.infer<typeof workoutQuerySchema>;

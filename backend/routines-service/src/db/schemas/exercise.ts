@@ -7,7 +7,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { ExerciseCategory } from "../../models/Exercise";
 
-const exerciseCategoryEnum = pgEnum("exercise_category_enum",ExerciseCategory)
+export const exerciseCategoryEnum = pgEnum("exercise_category_enum", ExerciseCategory)
 
 export const exerciseTable = pgTable("exercise", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),

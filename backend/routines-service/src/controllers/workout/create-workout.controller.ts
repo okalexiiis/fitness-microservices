@@ -19,7 +19,7 @@ export async function createWorkoutController(c: Context) {
       });
     }
 
-    const exercise = await exerciseService.getOneBy(data.exercise_id);
+    const exercise = await exerciseService.getOneBy({id: data.exercise_id});
     if (!exercise) {
       throw new Error(`Exercise with ID ${data.exercise_id} does not exist`, {
         cause: { code: 404 },

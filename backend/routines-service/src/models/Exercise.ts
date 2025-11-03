@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { querySchema } from "../types/api.types"
 
 // Constantes de categorías
 export const ExerciseCategory = ["cardio", "strength"] as const
@@ -38,3 +39,6 @@ export const exerciseFilterSchema = z.object({
   category: z.enum(ExerciseCategory).optional(),
 })
 export type ExerciseFilters = z.infer<typeof exerciseFilterSchema>
+
+export const exerciseQuerySchema = exerciseFilterSchema.and(querySchema)
+export type ExerciseQuery = z.infer<typeof exerciseQuerySchema>

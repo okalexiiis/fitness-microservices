@@ -7,16 +7,23 @@ export async function getAllWorkoutsController(c: Context) {
   const service = new WorkoutService();
   try {
     let filters: WorkoutFilters = {};
+    const limit = Number(c.req.query("limit"))
+    const page = Number(c.req.query("page"))
     const user_id = Number(c.req.query("user_id"));
     const exercise_id = Number(c.req.query("exercise_id"));
     const date = c.req.query("date");
-    const completed = c.req.query("completed");
+    const completed = c.req.query("completed") as boolean | undefined;
 
     filters = { user_id, exercise_id, date, completed };
 
-    const workouts = await service.getAll(filters);
-
-    const res = ApiMapper.ApiResponse(workouts, 200, "Workouts Retrieved");
+    const { data, total } = await service.getAll(limit, page, filters);
+    const totalPages = Math.ceil(total / limit);
+    const res = ApiMapper.ApiPaginatedResponse(
+      data,
+      200,
+      { limit, page, total, totalPages },
+      "Workouts Retrieved"
+    );
     return c.json(res, res.statusCode);
   } catch (error: any) {
     console.error(error);

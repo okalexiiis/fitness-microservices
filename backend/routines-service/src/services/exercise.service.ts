@@ -1,17 +1,17 @@
 import { db, exerciseTable } from "../db";
 import { eq, sql } from "drizzle-orm/sql";
 import {
-  createExerciseDTO,
+  CreateExerciseDTO,
   Exercise,
   ExerciseFilters,
-  updateExerciseDTO,
+  UpdateExerciseDTO,
 } from "../models/Exercise";
 import { applyFilters, sanitizeUpdates } from "../helpers";
 
 export class ExerciseService {
   private _db = db;
 
-  public async save(raw: createExerciseDTO): Promise<void> {
+  public async save(raw: CreateExerciseDTO): Promise<void> {
     await this._db.insert(exerciseTable).values(raw);
   }
 
@@ -50,7 +50,7 @@ export class ExerciseService {
     return exercise || null;
   }
 
-  public async update(id: number, updates: updateExerciseDTO): Promise<void> {
+  public async update(id: number, updates: UpdateExerciseDTO): Promise<void> {
     const cleanUpdates = sanitizeUpdates(updates);
 
     if (!cleanUpdates)

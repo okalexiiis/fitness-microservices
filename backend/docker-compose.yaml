@@ -63,8 +63,7 @@ services:
     ports:
       - "4003:4000"
     volumes:
-      - ./nutrition-service:/app           # ✅ Monta TODO el directorio
-      - /app/node_modules        # ✅ Pero excluye node_modules
+      - ./nutrition-service:/app
     environment:
       DATABASE_URL: postgresql://admin:password@nutrition-db:5432/fitness_app
     depends_on:

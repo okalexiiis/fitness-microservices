@@ -1,0 +1,5 @@
+export * from "./get-all-workouts.controller"
+export * from "./delete-workout.controller"
+export * from "./update-workout.controller"
+export * from "./create-workout.controller"
+export * from "./get-one-workout-by-id.controller"

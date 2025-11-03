@@ -9,7 +9,7 @@ export async function updateWorkoutController(c: Context) {
   try {
     const id = Number(c.req.param("id"));
 
-    const workout = await service.getOneBy(id);
+    const workout = await service.getOneBy({ id });
 
     if (!workout) {
       throw new Error(`Workout with ID ${id} does not exist`, {
