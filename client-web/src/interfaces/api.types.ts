@@ -1,0 +1,31 @@
+// import z from "zod";
+import type { ContentfulStatusCode } from "./status-code.types";
+
+export interface PaginationMetaData {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface ApiResponse<T> {
+  data: T;
+  statusCode: ContentfulStatusCode;
+  message?: string;
+}
+
+export interface ErrorResponse extends Omit<ApiResponse<any>, "data"> {
+    cause?: any
+    stack?: any
+}
+
+export interface ApiResponsePaginated<T>
+  extends Omit<ApiResponse<any>, "data"> {
+  data: T[];
+  meta: PaginationMetaData;
+}
+
+/* export const querySchema = z.object({
+  page: z.string().optional(),
+  limit: z.string().optional()
+}) */
