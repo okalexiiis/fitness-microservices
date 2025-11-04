@@ -1,5 +1,7 @@
 // src/api/api.base.ts
 
+import type { ApiResponse, ApiResponsePaginated, ErrorResponse } from "@shared/types/api.types";
+
 // URL base de la API
 export const API_URL = "http://localhost:4000/api";
 
@@ -12,55 +14,63 @@ export interface API_REQUEST {
 
 // Helper para manejar respuestas y errores
 async function handleResponse(response: Response) {
+  const contentType = response.headers.get("Content-Type") || "";
+  const isJson = contentType.includes("application/json");
+  const body = isJson ? await response.json().catch(() => ({})) : await response.text();
+
   if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`Error ${response.status}: ${errorText}`);
+    const error: ErrorResponse = {
+      statusCode: response.status,
+      message:
+        typeof body === "object"
+          ? body.message || response.statusText
+          : String(body),
+      cause: body,
+    };
+    throw error;
   }
-  return response.json().catch(() => ({}));
+
+  return body;
 }
 
-// Método GET para obtener todos los registros
-export async function GET_ALL(endpoint: string) {
+
+export async function GET_ALL<T>(endpoint: string): Promise<ApiResponsePaginated<T>> {
   const res = await fetch(`${API_URL}/${endpoint}`);
   return handleResponse(res);
 }
 
-// Método GET para obtener un solo registro
-export async function GET_ONE(endpoint: string, id: string | number) {
+export async function GET_ONE<T>(endpoint: string, id: string | number): Promise<ApiResponse<T>> {
   const res = await fetch(`${API_URL}/${endpoint}/${id}`);
   return handleResponse(res);
 }
 
-// Método POST para crear un nuevo registro
-export async function CREATE(endpoint: string, data: any) {
+export async function POST<T>(endpoint: string, data: any): Promise<ApiResponse<T>> {
   const res = await fetch(`${API_URL}/${endpoint}`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
   return handleResponse(res);
 }
 
-// Método PUT/PATCH para actualizar un registro
-export async function UPDATE(endpoint: string, id: string | number, data: any) {
+export async function UPDATE<T>(
+  endpoint: string,
+  id: string | number,
+  data: any
+): Promise<ApiResponse<T>> {
   const res = await fetch(`${API_URL}/${endpoint}/${id}`, {
-    method: "PATCH", // o PATCH si tu API lo usa
-    headers: {
-      "Content-Type": "application/json",
-    },
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
   return handleResponse(res);
 }
 
-// Método DELETE para eliminar un registro
-export async function DELETE(endpoint: string, id: string | number) {
-  const res = await fetch(`${API_URL}/${endpoint}/${id}`, {
-    method: "DELETE",
-  });
+export async function DELETE<T>(
+  endpoint: string,
+  id: string | number
+): Promise<ApiResponse<T>> {
+  const res = await fetch(`${API_URL}/${endpoint}/${id}`, { method: "DELETE" });
   return handleResponse(res);
 }
-
 

@@ -1,5 +1,4 @@
 // import z from "zod";
-import type { ContentfulStatusCode } from "./status-code.types";
 
 export interface PaginationMetaData {
   page: number;
@@ -10,7 +9,7 @@ export interface PaginationMetaData {
 
 export interface ApiResponse<T> {
   data: T;
-  statusCode: ContentfulStatusCode;
+  statusCode: number;
   message?: string;
 }
 

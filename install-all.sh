@@ -20,4 +20,13 @@ for dir in "$BACKEND_ROUTE"/*/; do
   fi
 done
 
+if [ ! -d "./client-web" ]; then
+  echo "❌ El directorio del cliente web no existe"
+  exit 1
+fi
+
+echo "📦 Instalando dependencias con pnpm para la web..."
+echo "🚀 Ejecutando pnpm install en ./cliente-web"
+(cd "./client-web" && pnpm install)
+
 echo "✅ Instalación de dependencias completada."

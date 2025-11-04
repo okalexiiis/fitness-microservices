@@ -4,7 +4,9 @@ import { compareHash } from "../Helpers";
 import { SignJWT } from "jose";
 
 // Secret para JWT (ideal usar .env)
-const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "supersecretkey");
+const JWT_SECRET = new TextEncoder().encode(
+  process.env.JWT_SECRET || "supersecretkey"
+);
 
 // Tiempo de expiración del token
 const JWT_EXPIRES_IN = "1h"; // 1 hora
@@ -17,7 +19,10 @@ export async function LoginUserController(c: Context) {
     const { email, password } = await c.req.json();
 
     if (!email || !password) {
-      return c.json({ ok: false, message: "Email y contraseña son obligatorios" }, 400);
+      return c.json(
+        { ok: false, message: "Email y contraseña son obligatorios" },
+        400
+      );
     }
 
     // 2️⃣ Buscar usuario por email
@@ -41,12 +46,17 @@ export async function LoginUserController(c: Context) {
       .sign(JWT_SECRET);
 
     // 5️⃣ Responder con el token
-    return c.json({
-      ok: true,
-      message: "Inicio de sesión exitoso",
-      data: { id: user.id, email: user.email, name: user.name, token }
-    }, 200);
-
+    return c.json(
+      {
+        ok: true,
+        message: "Inicio de sesión exitoso",
+        data: {
+          user: { id: user.id, email: user.email, name: user.name },
+          token,
+        },
+      },
+      200
+    );
   } catch (error: any) {
     console.error("LoginUserController error:", error);
 

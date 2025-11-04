@@ -12,13 +12,12 @@ app.use('*', cors());
 
 // Health check
 app.get('/health', (c) => {
-  return c.json({ 
-    status: 'ok', 
+  return c.json({
+    status: 'ok',
     service: 'users',
-    timestamp: new Date().toISOString() 
+    timestamp: new Date().toISOString()
   });
 });
-
 
 app.route('/', userRouter)
 

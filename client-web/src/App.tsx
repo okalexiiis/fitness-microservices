@@ -1,10 +1,12 @@
-function App() {
+import { BrowserRouter } from "react-router";
+import { AppRoutes } from "./router";
 
+function App() {
   return (
-    <>
-      nothing
-    </>
-  )
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
