@@ -3,7 +3,6 @@ import { logger } from "hono/logger";
 import { cors } from "hono/cors";
 import ExerciseRouter from "./routes/exercise";
 import WorkoutRouter from "./routes/workout";
-import { PostgresError } from "postgres";
 import { ZodError } from "zod";
 const app = new Hono();
 

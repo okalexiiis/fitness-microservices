@@ -6,8 +6,8 @@ import { ExerciseCategoryType, ExerciseFilters } from "../../models/Exercise";
 export async function GetAllExercisesController(c: Context) {
   const service = new ExerciseService();
   try {
-    const limit = Number(c.req.query("limit")) || 10
-    const page = Number(c.req.query("page")) || 1
+    const limit = Number(c.req.query("limit"))
+    const page = Number(c.req.query("page"))
 
     const category = c.req.query("category") as ExerciseCategoryType
     const name = c.req.query("name")
