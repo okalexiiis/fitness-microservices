@@ -1,6 +1,8 @@
 import { Hono } from 'hono';
 import { logger } from 'hono/logger';
 import { cors } from 'hono/cors';
+import WeigthRouter from './routes/weigth-log.router';
+import dailySummaryRouter from './routes/daily-summary.controller';
 
 const app = new Hono();
 
@@ -16,6 +18,9 @@ app.get('/health', (c) => {
     timestamp: new Date().toISOString() 
   });
 });
+
+app.route('/weight-log', WeigthRouter);
+app.route('/weight-log', dailySummaryRouter);
 
 // 404 handler
 app.notFound((c) => {

@@ -12,7 +12,7 @@ export interface WeightLog {
 export const weightLogSchema = z.object({
   user_id: z.number({ error: "user_id needs to be number" }),
   weight: z.number({ error: "weight needs to be number" }),
-  date: z.iso.date({ error: "date needs to be a valid date" }),
+  date: z.iso.date({ error: "date needs to be a valid date" }).default(new Date().toISOString()),
 });
 
 export const createWeightLogSchema = weightLogSchema;
